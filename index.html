@@ -3,10 +3,10 @@
 <head>
   <meta charset="utf-8">
   <meta name="description"
-        content="TANGRAM: Making Unstructured KV Cache Practical for Long-Term Conversation LLM Serving.">
-  <meta name="keywords" content="LLM, KV Cache, PagedAttention, Long-Term Conversation, GPU Memory Efficiency, TANGRAM">
+        content="Tangram: Unlocking Non-Uniform KV Cache for Efficient Multi-turn LLM Serving.">
+  <meta name="keywords" content="LLM, KV Cache, PagedAttention, Multi-turn Conversation, GPU Memory Efficiency, TANGRAM">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>TANGRAM: Making Unstructured KV Cache Practical for Long-Term Conversation LLM Serving</title>
+  <title>Tangram: Unlocking Non-Uniform KV Cache for Efficient Multi-turn LLM Serving</title>
 
   <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro" rel="stylesheet">
   <link rel="stylesheet" href="./static/css/bulma.min.css">
@@ -113,7 +113,7 @@
           <div class="column has-text-centered">
             <h1 class="title is-1 publication-title">
               <img src="./static/images/tangram_icon_v3_removed.png" alt="TANGRAM Icon" class="title-icon">
-              TANGRAM: Making Unstructured KV Cache <br> Practical for Long-Term Conversation LLM Serving
+              Tangram: Unlocking Non-Uniform KV Cache <br> for Efficient Multi-turn LLM Serving
             </h1>
             <div class="is-size-5 publication-authors">
               <span class="author-block">Hyungmin Kim<sup>*</sup>,</span>
@@ -163,11 +163,11 @@
     <h2 class="title is-3 has-text-centered">Evaluation Highlights</h2>
     <div class="columns is-centered has-text-centered">
       <div class="column">
-        <p class="is-size-2 highlight-value">2~9x</p>
+        <p class="is-size-2 highlight-value">2.6×</p>
         <p class="is-size-5">Throughput Improvement</p>
       </div>
       <div class="column">
-        <p class="is-size-2 highlight-value">9x</p>
+        <p class="is-size-2 highlight-value">4×</p>
         <p class="is-size-5">Memory Savings</p>
       </div>
       <div class="column">
@@ -176,7 +176,7 @@
       </div>
     </div>
     <div class="content has-text-justified mt-5">
-      <p>Tested on Llama-3 and Qwen3 models across <b>Realtalk, LoCoMo, and LongMemEval</b> benchmarks, TANGRAM demonstrates that it can preserve conversational accuracy while significantly outperforming state-of-the-art serving frameworks like vLLM.</p>
+      <p>Evaluated on Qwen3-4B, Qwen2.5-7B-1M, and Qwen2.5-32B across <b>SCBench, LoCoMo, RealTalk, and LongMemEval</b>, Tangram preserves conversational accuracy while significantly outperforming state-of-the-art serving frameworks such as vLLM.</p>
     </div>
   </div>
 </section>
@@ -188,18 +188,17 @@
           <h2 class="title is-3">Abstract</h2>
           <div class="content has-text-justified">
             <p>
-              As Large Language Models (LLMs) evolve into persistent personal assistants, the ability to maintain Long-Term Conversation (LTC) has become critical for delivering consistent, personalized user experiences. 
-              However, preserving this extensive dialogue history causes the Key-Value (KV) cache to scale linearly with each turn, imposing significant pressure on GPU memory capacity and bandwidth. 
-              Consequently, KV cache compression becomes essential for cost-efficient serving. 
-              Yet existing compression methods largely assume uniform KV lengths across layers and heads—an assumption we show is detrimental in multi-turn scenarios, where discarding context-essential information degrades model accuracy. 
-              While non-uniform KV Cache compression preserves accuracy by allocating heterogeneous budgets, it disrupts the uniform memory layout relied upon by modern serving systems. 
-              This misalignment leads to severe memory fragmentation under paged allocation, preventing theoretical compression rates from translating into actual memory savings. 
-              This paper presents TANGRAM, a novel LLM serving system designed to make non-uniform KV caches practical. 
-              TANGRAM addresses system inefficiencies through three core techniques: 
-              (1) <b>Profile-Guided Fixed Allocation</b> converts dynamic compression rates into deterministic budgets to eliminate scheduling stalls; 
-              (2) <b>Head-Grouped PagedAttention</b> backed by a <b>Vectorized Block Table</b> decouples memory management across attention heads to resolve memory fragmentation without inflating metadata overhead; 
-              and (3) <b>Ahead-of-Time (AOT) Load Balancing</b> leverages static budget profiles to ensure uniform GPU utilization without runtime planning costs. 
-              Our evaluation on representative multi-turn workloads demonstrates that TANGRAM improves throughput by up to 2x with the same memory footprint and achieves up to 9x memory savings, while preserving conversational accuracy.
+              Multi-turn Large Language Model (LLM) serving is critical for consistent user experiences, yet the linear growth of the Key-Value (KV) cache imposes significant pressure on GPU memory and bandwidth.
+              Non-uniform KV compression effectively preserves more information by considering the individual importance of each KV cache.
+              However, such KV cache heterogeneity introduces various systemic challenges—including memory fragmentation, scheduling complexities, and diminished kernel utilization—which collectively lead to significant inefficiencies in existing LLM serving systems.
+            </p>
+            <p>
+              To overcome these challenges, we present Tangram, a novel serving system designed to make Non-uniform KV caches practical.
+              Tangram addresses systemic inefficiencies through three core techniques:
+              (1) <b>Deterministic Budget Allocation</b> assigns a static memory footprint to each head based on its intrinsic pattern, entirely eliminating dynamic scheduling overhead and prefill stalls;
+              (2) <b>Head Group Page</b> clusters attention heads with similar retention demands and manages them with independent, vectorized page tables, thereby maximizing physical memory reclamation;
+              and (3) <b>Ahead-of-Time (AOT) Load Balancing</b> leverages static budget profiles to ensure uniform GPU utilization without runtime overhead.
+              Experimental results show that Tangram improves throughput by up to 2.6× compared to existing baselines, while fully preserving model accuracy.
             </p>
           </div>
         </div>
@@ -214,28 +213,28 @@
           <div class="has-text-centered mb-6">
             <img
               src="./static/images/Challenge_Memory.png"
-              alt="Challenge: LTC History Growth"
+              alt="Challenge: Multi-turn History Growth"
               style="max-width: 70%; height: auto; border-radius: 8px;"
             >
-            <h3 class="title is-5 mt-3"> Problem Statement: Massive Scale of KV Cache in Long-Term Conversation</h3>
+            <h3 class="title is-5 mt-3"> Problem Statement: KV Cache Explosion in Multi-turn LLM Serving</h3>
             <p>
-              Long-Term Conversation (LTC) demands an <b>overwhelming volume of KV cache</b> to maintain context over extended dialogues. 
-              Even with a moderate batch size of 16, this massive footprint quickly <b>surpasses the size of the model weights themselves</b>, creating a critical memory bottleneck. 
-              This unsustainable memory pressure forces systems to drastically <b>restrict concurrent batch sizes</b>, leading to resource saturation and a severe decline in serving throughput.
+              In multi-turn serving, each turn appends to the dialogue history (H<sub>t</sub>), making the KV cache <b>scale linearly</b> with the number of turns.
+              Even at moderate batch sizes, this footprint <b>surpasses the model weights themselves</b>, becoming the primary bottleneck for scalability and throughput.
+              KV cache compression is therefore essential, but uniform compression discards context-essential information, motivating <b>Non-uniform KV compression</b>.
             </p>
           </div>
 
-          <h2 class="title is-3 has-text-centered">Why Unstructured KV Cache?</h2>
+          <h2 class="title is-3 has-text-centered">Why Non-uniform KV Cache?</h2>
           <div class="has-text-centered">
             <img
               src="./static/images/Head-wise Heterogeneity.png"
               alt="Head-wise Heterogeneity"
               style="max-width: 70%; height: auto; border-radius: 8px;"
             >
-            <h3 class="title is-5 mt-3">The Insight: Head-wise "Needle-in-a-haystack" Patterns</h3>
+            <h3 class="title is-5 mt-3">The Insight: Head-wise Concentration Heterogeneity</h3>
             <p>
-              LTC workloads exhibit <b>Head-wise Heterogeneity</b>; critical information is fragmented into specific, irregular positions throughout the history[cite: 130, 171]. 
-              Unlike structured eviction which forces uniform retention, <b>Unstructured KV Eviction</b> selectively preserves these head-specific "needles," maintaining over <b>90% accuracy</b> while achieving significantly higher compression rates[cite: 24, 176].
+              Attention heads exhibit <b>diverse concentration patterns</b>: some focus on a few critical tokens while others spread across the context.
+              By assigning each head a budget proportional to its retrieval role, Non-uniform compression produces up to a <b>42× disparity</b> in per-head KV size while preserving conversational accuracy at aggressive compression rates.
             </p>
           </div>
         </div>
@@ -245,44 +244,42 @@
 
 <section class="section">
   <div class="container is-max-desktop">
-    <h2 class="title is-3 has-text-centered"> Systematic Challenge: Page Fragmentation</h2>
+    <h2 class="title is-3 has-text-centered"> Systemic Challenges of Non-uniform KV Cache</h2>
     <div class="columns is-centered">
       <div class="column is-four-fifths">
         <div class="has-text-centered mb-5">
           <img
-            src="./static/images/page_fragmentation.png"
-            alt="Page Fragmentation"
+            src="./static/images/challenges.png"
+            alt="Systemic Challenges"
             style="max-width: 70%; height: auto; border-radius: 8px;"
           >
         </div>
         <p class="mb-5">
-          Unstructured KV eviction is algorithmically superior, but it breaks the <b>Uniform Homogeneity Assumption</b>
-          relied upon by modern serving systems like PagedAttention. This misalignment causes a critical system bottleneck:
+          Modern serving stacks (PagedAttention, Continuous Batching, FlashDecoding/FlashInfer) are co-designed under a <b>uniform-KV assumption</b>. Non-uniform compression breaks this assumption, exposing three fundamental limitations:
         </p>
 
         <div class="methodology-box" style="height: auto;">
-          <h3 class="title is-4">Structural Dead Space (Spatial Inefficiency)</h3>
+          <h3 class="title is-4">1. Monolithic Page Structure → Page Fragmentation</h3>
           <p>
-            Standard page allocators assume all attention heads consume identical memory.
-            However, unstructured compression leads to heterogeneous KV lengths across heads.
+            A unified physical block spans <i>all</i> layers and heads simultaneously, so per-head heterogeneity cannot be reclaimed.
+            Each page is sized by the longest-retaining head (L<sub>max</sub>), leaving the others mostly empty and locking compressed memory inside <b>structural dead space</b>.
           </p>
-          <ul class="mt-3">
-            <li><b>Problem:</b> The allocator must reserve physical pages based on the <i>maximum</i> retained length among all heads (L_max).</li>
-            <li><b>Structural Dead Space:</b> Heads with shorter context requirements leave vast portions of their allocated pages empty.</li>
-            <li><b>Impact:</b> This fragmentation accounts for over <b>60% of the total memory footprint</b>, effectively negating the theoretical savings from compression.</li>
-          </ul>
         </div>
 
         <div class="methodology-box mt-5" style="height: auto;">
-          <h3 class="title is-4">Prefill-Stall (Temporal Inefficiency)</h3>
+          <h3 class="title is-4">2. Dynamic Reclamation Bottleneck</h3>
           <p>
-            Spatial fragmentation directly impairs the scheduler's ability to execute <b>Continuous Batching</b>.
+            Reclaiming scattered pages on-the-fly forces the scheduler to track and re-plan compressed footprints at runtime.
+            This <b>CPU overhead</b> degrades overall system throughput.
           </p>
-          <ul class="mt-3">
-            <li><b>Budget Uncertainty:</b> Because unstructured compression rates depend on dynamic attention patterns, the scheduler cannot predict the post-compression footprint before execution.</li>
-            <li><b>Conservative Over-provisioning:</b> To prevent Out-of-Memory (OOM) errors, the scheduler must reserve memory based on the uncompressed full length.</li>
-            <li><b>Impact:</b> This leads to <b>"false saturation,"</b> where the system defers new requests (Prefill-Stall) even when actual memory is available, inflating Time-To-First-Token (TTFT).</li>
-          </ul>
+        </div>
+
+        <div class="methodology-box mt-5" style="height: auto;">
+          <h3 class="title is-4">3. Workload Imbalance across GPU SMs</h3>
+          <p>
+            Uniform KV splits become "stragglers" under heterogeneous lengths, inflating decode attention latency by up to <b>1.7×</b>.
+            Dynamic rebalancing (FlashInfer-style) restores utilization but loses <i>plan reuse</i> across layers, costing <b>15–20%</b> of decode time per step.
+          </p>
         </div>
       </div>
     </div>
@@ -295,22 +292,35 @@
     <div class="columns is-multiline">
       <div class="column is-4">
         <div class="methodology-box">
-          <h3 class="title is-4">1. Profile-Guided Fixed Allocation</h3>
-          <p>Eliminates <b>Prefill-Stalls</b> by converting dynamic compression rates into deterministic budgets. It leverages the observation that head-wise importance is a stable, model-intrinsic property.</p>
+          <h3 class="title is-4">1. Deterministic Budget Allocation</h3>
+          <p>Replaces runtime-decided compression with offline-profiled, per-head static budgets, eliminating the dynamic compress-and-reclaim bottleneck and enabling precise page planning.</p>
         </div>
       </div>
       <div class="column is-4">
         <div class="methodology-box">
-          <h3 class="title is-4">2. Head-Grouped PagedAttention</h3>
-          <p>Resolves <b>Page Fragmentation</b> by partitioning heads into independent management units. Backed by a <b>Vectorized Block Table</b>, it reduces "dead space" by 60% without increasing CPU overhead.</p>
+          <h3 class="title is-4">2. Head Group PagedAttention</h3>
+          <p>Clusters heads by budget similarity and assigns each group an independent page table. A <b>Vectorized Block Table</b> (SIMD + OpenMP) keeps fine-grained grouping CPU-cheap.</p>
         </div>
       </div>
       <div class="column is-4">
         <div class="methodology-box">
           <h3 class="title is-4">3. AOT Load Balancing</h3>
-          <p>Mitigates <b>Workload Imbalance</b> by pre-calculating optimal workload partitions offline. This ensures uniform GPU utilization and zero runtime planning costs during decoding.</p>
+          <p>Precomputes a per-layer Workload Partition Table from static budget profiles, achieving balanced SM utilization with <b>zero runtime planning</b> overhead.</p>
         </div>
       </div>
+    </div>
+
+    <div class="has-text-centered mt-6">
+      <figure>
+        <img
+          src="./static/images/overview.png"
+          alt="Tangram System Overview"
+          style="max-width: 95%; height: auto; border-radius: 8px;"
+        >
+        <figcaption class="has-text-grey mt-3" style="text-align: left;">
+          <b>Tangram system overview.</b> Three methodologies cooperate end-to-end across the serving stack: <b>(a) Deterministic Budget Allocation</b> profiles each head's KV retention offline and assigns a static, non-uniform budget per head; <b>(d) Head Group Page</b> clusters heads by budget similarity and gives each group its own page table — bounding allocation by the <i>local</i> maximum instead of the global one and reclaiming structural dead space; <b>(e) AOT Load Balancing</b> precomputes a Split-KV table from the static budgets so GPU SMs receive balanced work with zero per-step planning cost.
+        </figcaption>
+      </figure>
     </div>
   </div>
 </section>
@@ -319,37 +329,28 @@
 
 <section class="section">
   <div class="container is-max-desktop">
-    <h2 class="title is-3 has-text-centered">Profile-Guided Fixed Allocation</h2>
+    <h2 class="title is-3 has-text-centered">Deterministic Budget Allocation</h2>
     <div class="columns is-centered">
       <div class="column is-four-fifths">
         <p class="mb-5">
-          The primary driver of <b>Prefill-Stalls</b> is the scheduler's inability to predict a request's post-compression memory footprint.
-          TANGRAM resolves this by shifting from dynamic, runtime-decided retention to a <b>Static Budget Allocation</b>.
+          Tangram eliminates the dynamic evict-and-reclaim bottleneck by replacing runtime-decided compression with a <b>static, offline-profiled budget</b> for every head.
         </p>
 
         <div class="mb-5">
-          <h3 class="title is-4">Observation: Stability of Head-Wise Importance</h3>
+          <h3 class="title is-4">Observation: Head-wise Budgets are Model-Intrinsic</h3>
           <p>
-            Despite the diversity of input queries, each attention head exhibits a <b>highly stable</b> retained KV length.
-            This indicates that head-wise KV retention is a consistent, model-intrinsic pattern rather than being strictly input-dependent.
+            Per-head retention rates are highly heterogeneous within a layer, yet each head's budget is <b>input-independent and stable</b> across samples and domains (verified across Qwen2.5-7B, Qwen3-4B, LLaMA3.1-8B).
+            This reframes "runtime uncertainty" as a statically resolvable model property.
           </p>
           <div class="has-text-centered mt-4">
-            <img src="./static/images/budget_distribution.png" alt="Stability of Head-Wise Importance" style="max-width: 70%; border-radius: 8px;">
-            <p class="is-size-7 has-text-grey mt-2">Distribution of per-head compressed KV sizes is almost static regardless of samples.</p>
+            <img src="./static/images/budget_distribution.png" alt="Stability of Head-Wise Budgets" style="max-width: 70%; border-radius: 8px;">
+            <p class="is-size-7 has-text-grey mt-2">Per-head retained KV sizes are nearly invariant across 50 sample inputs.</p>
           </div>
         </div>
 
-        <div class="methodology-box mt-5" style="height: auto;">
-          <h3 class="title is-4">Deterministic Resource Scheduling</h3>
-          <p>
-            By locking head-wise budgets to their intrinsic patterns via offline profiling, TANGRAM transforms dynamic memory requirements into a <b>known constant</b>.
-          </p>
-          <ul class="mt-3">
-            <li><b>Precise Planning:</b> The scheduler allocates memory based on a deterministic upper bound, derived directly from calibrated budgets.</li>
-            <li><b>Eliminating "False Saturation":</b> Systems can aggressively batch requests up to the true physical limit of the GPU, eradicating dead space caused by conservative over-reservation.</li>
-            <li><b>Accuracy Preservation:</b> This fixed assignment preserves the accuracy benefits of unstructured eviction while eliminating the stochasticity of memory management.</li>
-          </ul>
-        </div>
+        <p class="mt-4">
+          Each head's static budget is profiled from just <b>50 pilot samples</b>, enabling precise planning and fused prefill+compression without runtime overhead.
+        </p>
       </div>
     </div>
   </div>
@@ -357,7 +358,7 @@
 
 <section class="section">
   <div class="container is-max-desktop">
-    <h2 class="title is-3 has-text-centered">Head-Grouped PagedAttention</h2>
+    <h2 class="title is-3 has-text-centered">Head Group PagedAttention</h2>
     <div class="columns is-centered">
       <div class="column is-four-fifths">
 
@@ -365,30 +366,28 @@
           <figure>
             <img
               src="./static/images/head-grouped%20paged%20atttention.png"
-              alt="Illustration of Head-Grouped PagedAttention"
+              alt="Illustration of Head Group PagedAttention"
               style="max-width: 100%; height: auto; border-radius: 8px;"
             >
             <figcaption class="has-text-grey mt-3" style="text-align: left;">
-              <b>Head-Grouped PagedAttention.</b> Instead of forcing all attention heads to share the same physical page allocation,
-              TANGRAM partitions heads into groups and manages pages independently at the group level.
+              <b>Head Group PagedAttention.</b> Heads are sorted by static budget and clustered into groups of size G; each group manages its own independent page table, so allocation is dictated by the local — not global — maximum.
             </figcaption>
           </figure>
         </div>
 
         <div class="columns mt-6">
           <div class="column is-6">
-            <h3 class="title is-4">Decoupled Memory Management</h3>
+            <h3 class="title is-4">Budget-Aware Head Clustering</h3>
             <p>
-              TANGRAM resolves fragmentation by partitioning attention heads into <b>independent management units (Group Size G)</b>.
-              By assigning a dedicated page table to a localized subset of heads, the system reclaims pages from groups with lower retention requirements,
-              effectively eliminating <b>structural dead space</b>.
+              For each layer, heads are sorted by their offline budget B<sub>ℓ,h</sub> and partitioned into H/G groups.
+              Page capacity is bounded by the <b>local maximum within a group</b>, tightly aligning allocations to actual demand and reclaiming the dead space caused by short-retention heads.
             </p>
           </div>
           <div class="column is-6">
             <h3 class="title is-4">Vectorized Block Table</h3>
             <p>
-              To mitigate the CPU-side scheduling overhead from managing multiple page tables, TANGRAM employs a <b>Vectorized Execution Model</b>.
-              Using <b>CPU SIMD (AVX-512 or NEON)</b> and <b>OpenMP parallelism</b>, it processes block-table operations in batches, enabling fine-grained grouping without throughput degradation.
+              Fine-grained grouping naively raises CPU scheduling cost to O(N<sub>req</sub> × H/G).
+              Tangram batches block-table operations with <b>OpenMP</b> across groups and <b>SIMD (AVX-512)</b> within a group, keeping CPU overhead negligible even at small G.
             </p>
           </div>
         </div>
@@ -397,11 +396,11 @@
           <figure>
             <img
               src="./static/images/Fragmentation and overhead.png"
-              alt="Fragmentation and Overhead"
+              alt="Fragmentation vs. Overhead Trade-off"
               style="max-width: 70%; height: auto; border-radius: 8px;"
             >
             <figcaption class="has-text-grey mt-3" style="text-align: left;">
-              As group size decreases, page fragmentation is reduced but block table management overhead increases. TANGRAM's vectorized block table keeps this overhead negligible, allowing aggressive grouping for maximum memory efficiency.
+              Group size G trades off fragmentation against block-table overhead. The Vectorized Block Table shifts the overhead curve down, letting Tangram pick a small G for maximum memory reclamation without throughput loss.
             </figcaption>
           </figure>
         </div>
@@ -417,27 +416,26 @@
     <div class="columns is-centered">
       <div class="column is-four-fifths">
         <p class="mb-5">
-          Unstructured compression creates <b>Workload Imbalance</b> across GPU Streaming Multiprocessors (SMs).
-          Heads with long histories become "stragglers," increasing attention latency by up to 1.5x.
-          TANGRAM resolves this without the high CPU overhead of dynamic planning:
+          Heterogeneous KV lengths skew per-thread-block workloads, inflating decode attention latency by up to <b>1.7×</b>.
+          Dynamic rebalancing recovers SM utilization but loses <i>plan reuse</i> across layers, paying <b>15–20%</b> of decode time per step. Tangram avoids both:
         </p>
 
         <div class="columns mt-5">
           <div class="column is-6">
             <div class="notification is-info is-light">
-              <strong>Static Workload Map:</strong> Since TANGRAM uses profile-guided fixed budgets, the "shape" of computation is known <b>before</b> inference begins.
+              <strong>Static Workload Partition Table:</strong> Because per-head budgets are fixed, CTAs are distributed across head groups <b>proportional to aggregated group budget</b>, computed once offline.
             </div>
           </div>
           <div class="column is-6">
             <div class="notification is-success is-light">
-              <strong>Zero Runtime Overhead:</strong> By pre-calculating an optimal <b>Workload Partition Map</b> offline, TANGRAM ensures perfectly balanced execution with zero runtime scheduling cost.
+              <strong>Zero Runtime Planning:</strong> The kernel simply reads the precomputed table at each step, eliminating per-layer planner cost while preserving balanced SM execution.
             </div>
           </div>
         </div>
 
         <div class="content has-text-centered mt-4">
           <p>
-            This allows TANGRAM to achieve the <b>high GPU utilization</b> of load-balanced execution while maintaining the <b>low latency</b> required for real-time serving.
+            The result: load-balanced GPU utilization without the latency penalty of online planning.
           </p>
         </div>
       </div>
@@ -450,11 +448,11 @@
     <h2 class="title is-3 has-text-centered">Evaluation Highlights</h2>
     <div class="columns is-centered has-text-centered">
       <div class="column">
-        <p class="is-size-2 highlight-value">2~9x</p>
+        <p class="is-size-2 highlight-value">2.6×</p>
         <p class="is-size-5">Throughput Improvement</p>
       </div>
       <div class="column">
-        <p class="is-size-2 highlight-value">9x</p>
+        <p class="is-size-2 highlight-value">4×</p>
         <p class="is-size-5">Memory Savings</p>
       </div>
       <div class="column">
@@ -463,21 +461,19 @@
       </div>
     </div>
     <div class="content has-text-justified mt-5">
-      <p>Tested on Llama-3 and Qwen2.5 models across <b>Realtalk, LoCoMo, and LongMemEval</b> benchmarks, TANGRAM demonstrates that it can preserve conversational accuracy while significantly outperforming state-of-the-art serving frameworks like vLLM.</p>
+      <p>Evaluated on Qwen3-4B, Qwen2.5-7B-1M, and Qwen2.5-32B across <b>SCBench, LoCoMo, RealTalk, and LongMemEval</b>, Tangram preserves conversational accuracy while significantly outperforming state-of-the-art serving frameworks such as vLLM.</p>
     </div>
   </div>
 </section>
 
 <section class="section">
   <div class="container is-max-desktop">
-    <h2 class="title is-3 has-text-centered">Accuracy Preservation</h2>
+    <h2 class="title is-3 has-text-centered">Accuracy Results</h2>
     <div class="columns is-centered">
       <div class="column is-four-fifths">
         <p class="mb-5">
-          High throughput gains are only meaningful if conversational accuracy is maintained.
-          Compared to structured eviction (SnapKV, KVzip-Str.) and unstructured eviction (KVzip-Unstr.),
-          TANGRAM consistently <b>tracks the full-KV baseline</b> across all three benchmarks and model families —
-          even at aggressive compression ratios down to 10% of the original KV size.
+          Throughput gains are only meaningful if accuracy holds.
+          Compared against uniform compression (<b>SnapKV</b>) and non-uniform compression (<b>KVzip</b>, <b>FastKVzip</b>), Tangram's static-budget allocation tracks the full-KV baseline across Short, Mid, and Long context scales — even at aggressive retention rates.
         </p>
 
         <div class="has-text-centered">
@@ -488,7 +484,7 @@
               style="max-width: 65%; height: auto; border-radius: 8px;"
             >
             <figcaption class="has-text-grey mt-3" style="text-align: left;">
-              <b>Accuracy vs. Relative KV Size</b> on Realtalk, LoCoMo, and LongMemEval benchmarks across LLaMA3.1-8B, Qwen2.5-14B, and Qwen2.5-32B. The dashed line indicates full-KV (no compression) accuracy. TANGRAM (blue) maintains near-baseline performance throughout compression, while structured methods degrade sharply.
+              <b>Accuracy vs. KV Retention Rate</b> on SCBench / LoCoMo / RealTalk / LongMemEval across Qwen3-4B, Qwen2.5-7B-1M, and Qwen2.5-32B (TP=2). Tangram maintains near-baseline accuracy where SnapKV and KVzip variants degrade.
             </figcaption>
           </figure>
         </div>
@@ -499,12 +495,12 @@
 
 <section class="section">
   <div class="container is-max-desktop">
-    <h2 class="title is-3 has-text-centered">Throughput & Memory Efficiency</h2>
+    <h2 class="title is-3 has-text-centered">Throughput Breakdown</h2>
     <div class="columns is-centered">
       <div class="column is-four-fifths">
         <p class="mb-5">
-          We evaluate the end-to-end serving performance of TANGRAM against the vLLM baseline.
-          The results demonstrate that TANGRAM effectively reclaims "structural dead space," allowing for <b>massive throughput scaling</b> within the same memory footprint.
+          Built on top of vLLM, Tangram is evaluated end-to-end against the vanilla baseline across multi-turn workloads.
+          By reclaiming structural dead space and eliminating control-plane overhead, it converts theoretical compression gains into <b>real serving throughput</b>.
         </p>
 
         <div class="has-text-centered mb-6">
@@ -515,7 +511,7 @@
               style="max-width: 75%; height: auto; border-radius: 8px;"
             >
             <figcaption class="has-text-grey mt-3" style="text-align: left;">
-              Memory Usage and Throughput Comparison on Llama-3 and Qwen3 models.
+              Memory usage and end-to-end throughput on Qwen3-4B, Qwen2.5-7B-1M, and Qwen2.5-32B (TP=2).
             </figcaption>
           </figure>
         </div>
@@ -523,21 +519,30 @@
         <div class="methodology-box" style="height: auto;">
           <h3 class="title is-4">Key Evaluation Insights</h3>
           <ul class="mt-3">
-            <li><b>Breaking the Memory Cap:</b> In standard systems (vLLM), internal fragmentation caps the maximum runnable batch size early. TANGRAM supports nearly <b>4x more concurrent requests</b> within the same physical memory footprint by decoupling management via Head-Grouped PagedAttention.</li>
-            <li><b>Saturation Resilience:</b> While vLLM's throughput saturates quickly due to memory constraints, TANGRAM's throughput continues to scale linearly, achieving up to <b>2x improvement</b> under identical KV cache budgets.</li>
-            <li><b>Massive Memory Savings:</b> When exploiting the full potential of unstructured compression, TANGRAM achieves up to <b>9x effective memory savings</b>.</li>
+            <li><b>Breaking the Memory Cap:</b> vLLM's monolithic page structure caps the runnable batch size early; Head Group PagedAttention reclaims dead space to sustain <b>far more concurrent requests</b> at the same memory footprint.</li>
+            <li><b>Saturation Resilience:</b> While vLLM saturates as KV pressure rises, Tangram continues to scale, achieving up to <b>2.6× throughput</b> under identical KV cache budgets.</li>
+            <li><b>Effective Memory Savings:</b> When pushed to high compression, Tangram delivers up to <b>4×</b> effective memory savings — translating algorithmic compression into system-level gains.</li>
           </ul>
         </div>
 
         <div class="has-text-centered mt-6">
           <figure>
             <img
-              src="./static/images/Throughput Breakdown.png"
-              alt="Throughput Breakdown"
+              src="./static/images/Throughput Breakdown1.png"
+              alt="Latency Breakdown across Compression Rates (Top)"
               style="max-width: 75%; height: auto; border-radius: 8px;"
             >
+            <img
+              src="./static/images/Throughput Breakdown2.png"
+              alt="Throughput by Head Group Size (Bottom)"
+              style="max-width: 75%; height: auto; border-radius: 8px; margin-top: 1rem;"
+            >
             <figcaption class="has-text-grey mt-3" style="text-align: left;">
-              <b>End-to-End Throughput Breakdown.</b> Head-Grouped PagedAttention and the Vectorized Block Table are the dominant contributors as compression budgets tighten, while AOT Load Balancing further scales serving capacity — together significantly outperforming the vLLM baseline.
+              <b>Decomposing where Tangram's gains come from.</b>
+              <br><br>
+              <b>(Top) Latency breakdown across various compression rates.</b> Dynamic allocation (Dyn. Comp.) incurs significant <i>page reclamation</i> overhead that scales with the eviction rate — adding up to <b>+24.9%</b> latency on Qwen3-4B and <b>+20.0%</b> on Qwen2.5-7B at 75% compression. In contrast, Tangram's deterministic budget allocation operates with <b>zero page reclaim overhead</b>, keeping end-to-end latency flat across all compression rates and isolating model execution as the only meaningful cost.
+              <br><br>
+              <b>(Bottom) Throughput across various compression rates by head group size (G).</b> The group size G governs the fragmentation–overhead trade-off: small G tightly packs per-head budgets to minimize fragmentation but inflates block-table management cost, while large G amortizes management overhead yet fails to effectively reclaim memory from short-retention heads. The sweet spot sits at moderate G across all three models (Qwen3-4B, Qwen2.5-7B-1M, Qwen2.5-32B with TP=2), confirming that Tangram's Vectorized Block Table makes <i>small-G regimes practical</i> without paying the CPU overhead penalty.
             </figcaption>
           </figure>
         </div>

@@ -195,7 +195,7 @@
             <p>
               To overcome these challenges, we present Tangram, a novel serving system designed to make Non-uniform KV caches practical.
               Tangram addresses systemic inefficiencies through three core techniques:
-              (1) <b>Deterministic Budget Allocation</b> assigns a static memory footprint to each head based on its intrinsic pattern, entirely eliminating dynamic scheduling overhead and prefill stalls;
+              (1) <b>Deterministic Budget Allocation</b> assigns a static memory footprint to each head based on its intrinsic pattern, entirely eliminating dynamic scheduling overhead;
               (2) <b>Head Group Page</b> clusters attention heads with similar retention demands and manages them with independent, vectorized page tables, thereby maximizing physical memory reclamation;
               and (3) <b>Ahead-of-Time (AOT) Load Balancing</b> leverages static budget profiles to ensure uniform GPU utilization without runtime overhead.
               Experimental results show that Tangram improves throughput by up to 2.6× compared to existing baselines, while fully preserving model accuracy.

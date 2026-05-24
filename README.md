@@ -7,7 +7,7 @@ This repository contains the source code for the official project website:
 **TANGRAM** is an efficient LLM serving system designed to make non-uniform KV cache compression practical for Multi-turn Conversations. It addresses memory fragmentation and system bottlenecks to achieve:
 * **4× Memory Savings**
 * **Up to 2.6× Throughput Improvement**
-* **<1% Accuracy Drop**
+* **Minimal Accuracy Loss**
 
 ## 🔗 Links
 * **[Official Website](https://aiha-lab.github.io/tangram-page/)**

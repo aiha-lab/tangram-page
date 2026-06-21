@@ -3,10 +3,51 @@
 <head>
   <meta charset="utf-8">
   <meta name="description"
-        content="Tangram: Unlocking Non-Uniform KV Cache for Efficient Multi-turn LLM Serving.">
-  <meta name="keywords" content="LLM, KV Cache, PagedAttention, Multi-turn Conversation, GPU Memory Efficiency, TANGRAM">
+        content="Tangram is a vLLM-based LLM serving system for non-uniform KV cache compression in multi-turn conversations, delivering up to 2.6x throughput and 4x memory savings with minimal accuracy loss.">
+  <meta name="keywords" content="vLLM, KV cache compression, KV cache, non-uniform KV cache, LLM inference, LLM serving, PagedAttention, multi-turn conversation, GPU memory efficiency, Tangram">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Tangram: Unlocking Non-Uniform KV Cache for Efficient Multi-turn LLM Serving</title>
+
+  <!-- Canonical -->
+  <link rel="canonical" href="https://aiha-lab.github.io/tangram-page/">
+
+  <!-- Open Graph (Facebook, LinkedIn, Slack, Discord, etc.) -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://aiha-lab.github.io/tangram-page/">
+  <meta property="og:title" content="Tangram: Unlocking Non-Uniform KV Cache for Efficient Multi-turn LLM Serving">
+  <meta property="og:description" content="A vLLM-based serving system for non-uniform KV cache compression in multi-turn LLM serving — up to 2.6x throughput and 4x memory savings with minimal accuracy loss.">
+  <meta property="og:image" content="https://aiha-lab.github.io/tangram-page/static/images/overview.png">
+  <meta property="og:image:alt" content="Tangram system overview: non-uniform KV cache compression for vLLM">
+  <meta property="og:site_name" content="Tangram">
+
+  <!-- Twitter / X Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Tangram: Unlocking Non-Uniform KV Cache for Efficient Multi-turn LLM Serving">
+  <meta name="twitter:description" content="A vLLM-based serving system for non-uniform KV cache compression in multi-turn LLM serving — up to 2.6x throughput and 4x memory savings with minimal accuracy loss.">
+  <meta name="twitter:image" content="https://aiha-lab.github.io/tangram-page/static/images/overview.png">
+
+  <!-- Structured data: scholarly article -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ScholarlyArticle",
+    "headline": "Tangram: Unlocking Non-Uniform KV Cache for Efficient Multi-turn LLM Serving",
+    "name": "Tangram: Unlocking Non-Uniform KV Cache for Efficient Multi-turn LLM Serving",
+    "abstract": "Tangram is a serving system that makes non-uniform KV cache compression practical for multi-turn LLM serving. Built on vLLM, it uses Deterministic Budget Allocation, Head Group Paging, and Ahead-of-Time Load Balancing to improve throughput by up to 2.6x and cut KV cache memory by 4x while preserving accuracy.",
+    "author": [
+      {"@type": "Person", "name": "Hyungmin Kim", "affiliation": {"@type": "Organization", "name": "Hanyang University"}},
+      {"@type": "Person", "name": "Minsoo Kim", "affiliation": {"@type": "Organization", "name": "Hanyang University"}},
+      {"@type": "Person", "name": "Hongseok Kim", "affiliation": {"@type": "Organization", "name": "Rebellions"}},
+      {"@type": "Person", "name": "Jungwook Choi", "affiliation": {"@type": "Organization", "name": "Hanyang University"}}
+    ],
+    "keywords": "vLLM, KV cache compression, non-uniform KV cache, LLM inference, LLM serving, PagedAttention, multi-turn conversation",
+    "url": "https://aiha-lab.github.io/tangram-page/",
+    "sameAs": [
+      "https://github.com/aiha-lab/tangram",
+      "https://arxiv.org/abs/2606.06302"
+    ]
+  }
+  </script>
 
   <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro" rel="stylesheet">
   <link rel="stylesheet" href="./static/css/bulma.min.css">

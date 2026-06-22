@@ -3,10 +3,10 @@
 <head>
   <meta charset="utf-8">
   <meta name="description"
-        content="Tangram is a vLLM-based LLM serving system for non-uniform KV cache compression in multi-turn conversations, delivering up to 2.6x throughput and 4x memory savings with minimal accuracy loss.">
-  <meta name="keywords" content="vLLM, KV cache compression, KV cache, non-uniform KV cache, LLM inference, LLM serving, PagedAttention, multi-turn conversation, GPU memory efficiency, Tangram">
+        content="Tangram is a vLLM-based serving framework that makes non-uniform KV cache compression practical for multi-turn LLM serving. A drop-in substrate for methods like Ada-SnapKV, Expected Attention, and FastKVzip, it turns algorithmic compression gains into up to 2.6x real end-to-end throughput with near-baseline accuracy.">
+  <meta name="keywords" content="vLLM, KV cache compression, KV cache, non-uniform KV cache, LLM inference, LLM serving, PagedAttention, multi-turn conversation, GPU memory efficiency, Budget Reservation, Ragged Paging, AOT load balancing, Tangram">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Tangram: Unlocking Non-Uniform KV Cache for Efficient Multi-turn LLM Serving</title>
+  <title>Tangram: Unlocking Non-Uniform KV Cache Compression for Efficient Multi-turn LLM Serving</title>
 
   <!-- Canonical -->
   <link rel="canonical" href="https://aiha-lab.github.io/tangram-page/">
@@ -14,16 +14,16 @@
   <!-- Open Graph (Facebook, LinkedIn, Slack, Discord, etc.) -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://aiha-lab.github.io/tangram-page/">
-  <meta property="og:title" content="Tangram: Unlocking Non-Uniform KV Cache for Efficient Multi-turn LLM Serving">
-  <meta property="og:description" content="A vLLM-based serving system for non-uniform KV cache compression in multi-turn LLM serving — up to 2.6x throughput and 4x memory savings with minimal accuracy loss.">
+  <meta property="og:title" content="Tangram: Unlocking Non-Uniform KV Cache Compression for Efficient Multi-turn LLM Serving">
+  <meta property="og:description" content="A drop-in vLLM substrate that makes non-uniform KV cache compression practical for multi-turn LLM serving — turning algorithmic compression gains into up to 2.6x real throughput with near-baseline accuracy.">
   <meta property="og:image" content="https://aiha-lab.github.io/tangram-page/static/images/overview.png">
   <meta property="og:image:alt" content="Tangram system overview: non-uniform KV cache compression for vLLM">
   <meta property="og:site_name" content="Tangram">
 
   <!-- Twitter / X Card -->
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Tangram: Unlocking Non-Uniform KV Cache for Efficient Multi-turn LLM Serving">
-  <meta name="twitter:description" content="A vLLM-based serving system for non-uniform KV cache compression in multi-turn LLM serving — up to 2.6x throughput and 4x memory savings with minimal accuracy loss.">
+  <meta name="twitter:title" content="Tangram: Unlocking Non-Uniform KV Cache Compression for Efficient Multi-turn LLM Serving">
+  <meta name="twitter:description" content="A drop-in vLLM substrate that makes non-uniform KV cache compression practical for multi-turn LLM serving — turning algorithmic compression gains into up to 2.6x real throughput with near-baseline accuracy.">
   <meta name="twitter:image" content="https://aiha-lab.github.io/tangram-page/static/images/overview.png">
 
   <!-- Structured data: scholarly article -->
@@ -31,9 +31,9 @@
   {
     "@context": "https://schema.org",
     "@type": "ScholarlyArticle",
-    "headline": "Tangram: Unlocking Non-Uniform KV Cache for Efficient Multi-turn LLM Serving",
-    "name": "Tangram: Unlocking Non-Uniform KV Cache for Efficient Multi-turn LLM Serving",
-    "abstract": "Tangram is a serving system that makes non-uniform KV cache compression practical for multi-turn LLM serving. Built on vLLM, it uses Deterministic Budget Allocation, Head Group Paging, and Ahead-of-Time Load Balancing to improve throughput by up to 2.6x and cut KV cache memory by 4x while preserving accuracy.",
+    "headline": "Tangram: Unlocking Non-Uniform KV Cache Compression for Efficient Multi-turn LLM Serving",
+    "name": "Tangram: Unlocking Non-Uniform KV Cache Compression for Efficient Multi-turn LLM Serving",
+    "abstract": "Tangram is a serving framework that makes non-uniform KV cache compression practical for multi-turn LLM serving. Built on vLLM, it exploits a two-level structural regularity in head-wise KV retention to statically resolve what prior systems handle at runtime, through Budget Reservation, Ragged Paging, and Ahead-of-Time Load Balancing. As a drop-in substrate for existing non-uniform compression methods, it improves end-to-end throughput by up to 2.6x over the full-KV baseline while preserving accuracy.",
     "author": [
       {"@type": "Person", "name": "Hyungmin Kim", "affiliation": {"@type": "Organization", "name": "Hanyang University"}},
       {"@type": "Person", "name": "Minsoo Kim", "affiliation": {"@type": "Organization", "name": "Hanyang University"}},
@@ -143,6 +143,31 @@
       border-left: 4px solid #23a455;
       border-radius: 0 8px 8px 0;
     }
+
+    /* ── Challenge → Technique mapping band ── */
+    .map-band {
+      background: linear-gradient(135deg, #f6f9ff 0%, #eef4ff 100%);
+      border: 1px solid #d6e4fb;
+      border-radius: 12px;
+      padding: 0.5rem 1.25rem;
+    }
+    .map-row {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 0.85rem 0;
+    }
+    .map-row + .map-row { border-top: 1px dashed #cfe0fb; }
+    .map-problem { flex: 1; text-align: right; color: #9c3a25; font-weight: 600; }
+    .map-problem small { display:block; color:#b07a6c; font-weight:400; font-size:0.8em; }
+    .map-arrow { flex: 0 0 auto; color: #3273dc; font-weight: 800; font-size: 1.25rem; }
+    .map-tech { flex: 1; text-align: left; color: #1a4a8a; font-weight: 700; }
+    .map-tech small { display:block; color:#5b7fb0; font-weight:400; font-size:0.8em; }
+    @media (max-width: 600px) {
+      .map-row { flex-direction: column; gap: 0.25rem; padding: 0.7rem 0; }
+      .map-problem, .map-tech { text-align: center; }
+      .map-arrow { transform: rotate(90deg); }
+    }
   </style>
 </head>
 <body>
@@ -154,7 +179,7 @@
           <div class="column has-text-centered">
             <h1 class="title is-1 publication-title">
               <img src="./static/images/tangram_icon_v3_removed.png" alt="TANGRAM Icon" class="title-icon">
-              Tangram: Unlocking Non-Uniform KV Cache <br> for Efficient Multi-turn LLM Serving
+              Tangram: Unlocking Non-Uniform KV Cache Compression <br> for Efficient Multi-turn LLM Serving
             </h1>
 
             <div class="is-size-5 publication-authors">
@@ -175,8 +200,9 @@
               </span>
             </div>
             
-            <div class="is-size-6">
-            </div>
+            <p class="is-size-5 mt-4" style="max-width: 720px; margin-left:auto; margin-right:auto; line-height:1.5;">
+              A <b>drop-in vLLM substrate</b> that turns non-uniform KV-cache compression into <b>real serving throughput</b> &mdash; up to <b>2.6×</b> over full-KV, with near-baseline accuracy.
+            </p>
 
             <div class="publication-links mt-5">
               <span class="link-block">
@@ -206,23 +232,23 @@
 
 <section class="section highlights">
   <div class="container is-max-desktop">
-    <h2 class="title is-3 has-text-centered">Evaluation Highlights</h2>
+    <h2 class="title is-3 has-text-centered">Compression Gains, Fully Realized in Real Serving</h2>
     <div class="columns is-centered has-text-centered">
       <div class="column">
         <p class="is-size-2 highlight-value">2.6×</p>
-        <p class="is-size-5">Throughput Improvement</p>
+        <p class="is-size-5">End-to-End Throughput<br>over full-KV vLLM</p>
       </div>
       <div class="column">
-        <p class="is-size-2 highlight-value">4×</p>
-        <p class="is-size-5">Memory Savings</p>
+        <p class="is-size-2 highlight-value">Drop-in</p>
+        <p class="is-size-5">Substrate for existing<br>non-uniform methods</p>
       </div>
       <div class="column">
-        <p class="is-size-2 highlight-value">Minimal</p>
-        <p class="is-size-5">Accuracy Loss</p>
+        <p class="is-size-2 highlight-value">Near-Baseline</p>
+        <p class="is-size-5">Accuracy across<br>5 dense &amp; MoE models</p>
       </div>
     </div>
     <div class="content has-text-justified mt-5">
-      <p>Evaluated on Qwen3-4B, Qwen2.5-7B-1M, and Qwen2.5-32B across <b>SCBench, LoCoMo, RealTalk, and LongMemEval</b>, Tangram preserves conversational accuracy while significantly outperforming state-of-the-art serving frameworks such as vLLM.</p>
+      <p>Non-uniform KV compression is <i>algorithmically</i> the right tool for multi-turn serving, but its theoretical memory savings evaporate inside today's serving stacks. <b>Tangram closes this gap</b>: built on vLLM, it lets existing methods — <b>Ada-SnapKV, Expected Attention, and FastKVzip</b> — deliver their full algorithmic gains as real served throughput. Evaluated on five dense and Mixture-of-Experts models (Qwen3-4B, Llama-3.1-8B, Gemma-3-12B, GPT-OSS-20B, Qwen3-30B-A3B) on <b>SCBench</b>, it matches each method's original accuracy while improving throughput by up to <b>2.6×</b> over the full-KV baseline.</p>
     </div>
   </div>
 </section>
@@ -234,17 +260,16 @@
           <h2 class="title is-3">Abstract</h2>
           <div class="content has-text-justified">
             <p>
-              Multi-turn Large Language Model (LLM) serving is critical for consistent user experiences, yet the linear growth of the Key-Value (KV) cache imposes significant pressure on GPU memory and bandwidth.
-              Non-uniform KV compression effectively preserves more information by considering the individual importance of each KV cache.
-              However, such KV cache heterogeneity introduces various systemic challenges—including memory fragmentation, scheduling complexities, and diminished kernel utilization—which collectively lead to significant inefficiencies in existing LLM serving systems.
+              Multi-turn LLM serving accumulates dialogue history whose Key-Value (KV) cache grows with every turn and every user, quickly exceeding the model weights themselves and making memory&mdash;not compute&mdash;the binding constraint on throughput.
+              Non-uniform KV compression, which allocates heterogeneous budgets across attention heads, preserves accuracy far better than uniform schemes, yet remains impractical: modern serving stacks force <b>every head to the same KV length</b>, so compressing a specific head is <b>structurally impossible</b>&mdash;the memory it would free collapses back into page fragmentation. Realizing heterogeneity instead spends up to <b>25%</b> of prefill time reclaiming scattered pages, and skews GPU workloads that inflate decode latency by up to <b>1.7×</b> or burn <b>15&ndash;20%</b> of each decode step on re-planning.
             </p>
             <p>
-              To overcome these challenges, we present Tangram, a novel serving system designed to make Non-uniform KV caches practical.
-              Tangram addresses systemic inefficiencies through three core techniques:
-              (1) <b>Deterministic Budget Allocation</b> assigns a static memory footprint to each head based on its intrinsic pattern, entirely eliminating dynamic scheduling overhead;
-              (2) <b>Head Group Page</b> clusters attention heads with similar retention demands and manages them with independent, vectorized page tables, thereby maximizing physical memory reclamation;
-              and (3) <b>Ahead-of-Time (AOT) Load Balancing</b> leverages static budget profiles to ensure uniform GPU utilization without runtime overhead.
-              Experimental results show that Tangram improves throughput by up to 2.6× compared to existing baselines, while fully preserving model accuracy.
+              We observe that this heterogeneity need not be discovered at runtime: head-wise retention follows a <b>two-level structural regularity</b>&mdash;an input-invariant head ranking with narrowly bounded per-head ratios&mdash;that can be calibrated offline from as few as <b>50 samples</b>.
+              Building on this insight, we present <b>Tangram</b>, a serving framework that statically resolves what prior systems handle dynamically:
+              (1) <b>Budget Reservation</b> fixes each head's post-compression footprint at scheduling time, eliminating page reclamation;
+              (2) <b>Ragged Paging</b> clusters similar-budget heads into independent page tables, turning fragmentation into reclaimable memory;
+              and (3) <b>Ahead-of-Time (AOT) Load Balancing</b> precomputes balanced GPU partitions with zero runtime planning.
+              Implemented on vLLM, Tangram serves as a drop-in substrate for existing non-uniform compression methods, matching their accuracy while improving end-to-end throughput by up to <b>2.6×</b> over the full-KV baseline.
             </p>
           </div>
         </div>
@@ -258,29 +283,21 @@
         <div class="column is-four-fifths">
           <div class="has-text-centered mb-6">
             <img
-              src="./static/images/Challenge_Memory.png"
-              alt="Challenge: Multi-turn History Growth"
-              style="max-width: 70%; height: auto; border-radius: 8px;"
+              src="./static/images/kv_growth_full.png"
+              alt="KV cache growth and uniform vs. non-uniform compression"
+              style="max-width: 95%; height: auto; border-radius: 8px;"
             >
             <h3 class="title is-5 mt-3"> Problem Statement: KV Cache Explosion in Multi-turn LLM Serving</h3>
             <p>
-              In multi-turn serving, each turn appends to the dialogue history (H<sub>t</sub>), making the KV cache <b>scale linearly</b> with the number of turns.
-              Even at moderate batch sizes, this footprint <b>surpasses the model weights themselves</b>, becoming the primary bottleneck for scalability and throughput.
-              KV cache compression is therefore essential, but uniform compression discards context-essential information, motivating <b>Non-uniform KV compression</b>.
+              In multi-turn serving, each turn appends to the dialogue history (H<sub>t</sub>), so the KV cache <b>scales linearly</b> with the number of turns and concurrent users <b>(a)</b>.
+              For Qwen2.5-32B, just 16 concurrent sessions <b>surpass the model weights themselves</b> within ten turns and keep growing&mdash;making memory, not compute, the binding constraint on batch size and throughput.
+              Compression is therefore essential, but <i>how</i> the budget is distributed across heads decides whether accuracy survives <b>(b)</b>: uniform schemes starve the few <i>retrieval heads</i> that carry long-range information, degrading accuracy, whereas <b>non-uniform compression</b> preserves it <b>(c)</b>.
             </p>
           </div>
 
-          <h2 class="title is-3 has-text-centered">Why Non-uniform KV Cache?</h2>
-          <div class="has-text-centered">
-            <img
-              src="./static/images/Head-wise Heterogeneity.png"
-              alt="Head-wise Heterogeneity"
-              style="max-width: 70%; height: auto; border-radius: 8px;"
-            >
-            <h3 class="title is-5 mt-3">The Insight: Head-wise Concentration Heterogeneity</h3>
-            <p>
-              Attention heads exhibit <b>diverse concentration patterns</b>: some focus on a few critical tokens while others spread across the context.
-              By assigning each head a budget proportional to its retrieval role, Non-uniform compression produces up to a <b>42× disparity</b> in per-head KV size while preserving conversational accuracy at aggressive compression rates.
+          <div class="notification is-info is-light">
+            <p class="mb-0">
+              <b>Why non-uniform?</b> Per-head KV retention is highly heterogeneous within a layer&mdash;a small subset of <i>retrieval heads</i> carries long-range context while most attend only locally. A budget that mirrors this skew preserves accuracy under aggressive compression, exactly where uniform truncation collapses. The question for a real serving system is whether this heterogeneity is predictable enough to plan around&mdash;<b>it is</b>, and that observation is what Tangram is built on.
             </p>
           </div>
         </div>
@@ -295,37 +312,49 @@
       <div class="column is-four-fifths">
         <div class="has-text-centered mb-5">
           <img
-            src="./static/images/challenges.png"
+            src="./static/images/challenges.png?v=3"
             alt="Systemic Challenges"
             style="max-width: 70%; height: auto; border-radius: 8px;"
           >
         </div>
         <p class="mb-5">
-          Modern serving stacks (PagedAttention, Continuous Batching, FlashDecoding/FlashInfer) are co-designed under a <b>uniform-KV assumption</b>. Non-uniform compression breaks this assumption, exposing three fundamental limitations:
+          The serving stack&mdash;PagedAttention, continuous batching with chunked prefill, and optimized attention kernels (FlashDecoding/FlashInfer)&mdash;is architected end-to-end around a single implicit assumption: <b>all attention heads hold KV caches of identical length</b>. Non-uniform compression violates this assumption at every layer of the stack, exposing three fundamental limitations&mdash;and each one motivates a corresponding Tangram technique:
         </p>
 
         <div class="methodology-box" style="height: auto;">
-          <h3 class="title is-4">1. Monolithic Page Structure → Page Fragmentation</h3>
+          <h3 class="title is-4">1. Monolithic Page Structure → Per-Head Compression Is Impossible</h3>
           <p>
-            A unified physical block spans <i>all</i> layers and heads simultaneously, so per-head heterogeneity cannot be reclaimed.
-            Each page is sized by the longest-retaining head (L<sub>max</sub>), leaving the others mostly empty and locking compressed memory inside <b>structural dead space</b>.
+            A request's block table records a <b>single KV length</b>, so every head must be managed at the same length&mdash;there is simply no way to hand an individual head a shorter cache. Compressing a specific head is therefore <b>structurally impossible</b>: even after a head's entries are evicted, its slots stay pinned to the longest-retaining head, and the memory compression should have freed collapses into <b>page fragmentation</b>.
           </p>
         </div>
 
         <div class="methodology-box mt-5" style="height: auto;">
-          <h3 class="title is-4">2. Dynamic Reclamation Bottleneck</h3>
+          <h3 class="title is-4">2. Page Management Overhead</h3>
           <p>
-            Reclaiming scattered pages on-the-fly forces the scheduler to track and re-plan compressed footprints at runtime.
-            This <b>CPU overhead</b> degrades overall system throughput.
+            Each head's post-compression footprint is unknown until the forward pass computes importance scores at runtime. The scheduler must therefore <b>over-allocate</b>, then run a costly <i>compress-and-reclaim</i> pass&mdash;identifying scattered freed pages, returning them to the pool, and remapping page tables in flight.
+            This control-plane churn consumes up to <b>25% of prefill execution time</b>.
           </p>
         </div>
 
         <div class="methodology-box mt-5" style="height: auto;">
           <h3 class="title is-4">3. Workload Imbalance across GPU SMs</h3>
           <p>
-            Uniform KV splits become "stragglers" under heterogeneous lengths, inflating decode attention latency by up to <b>1.7×</b>.
-            Dynamic rebalancing (FlashInfer-style) restores utilization but loses <i>plan reuse</i> across layers, costing <b>15–20%</b> of decode time per step.
+            FlashDecoding's static, uniform KV splits become <b>stragglers</b> under heterogeneous lengths, inflating decode attention latency by up to <b>1.7×</b>.
+            FlashInfer's dynamic rebalancing restores utilization but loses <i>plan reuse</i>: a unique partition must be recomputed for every layer at every step, burning <b>15–20%</b> of each decode iteration on the CPU.
           </p>
+        </div>
+
+        <div class="has-text-centered mt-5">
+          <figure>
+            <img
+              src="./static/images/workload_imbalance.png"
+              alt="Workload imbalance on decode attention"
+              style="max-width: 65%; height: auto; border-radius: 8px;"
+            >
+            <figcaption class="has-text-grey mt-3" style="text-align: left;">
+              <b>Workload imbalance on decode attention.</b> Heterogeneous per-head KV lengths <b>(b)</b> skew per-thread-block work versus the uniform case <b>(a)</b>; the decode step is gated by the heaviest blocks, inflating attention latency by up to <b>1.7×</b> at the same total KV size <b>(c)</b>.
+            </figcaption>
+          </figure>
         </div>
       </div>
     </div>
@@ -335,23 +364,49 @@
 <section class="section">
   <div class="container is-max-desktop">
     <h2 class="title is-3 has-text-centered">Core Methodologies</h2>
+    <p class="has-text-centered mb-5" style="max-width: 760px; margin-left:auto; margin-right:auto;">
+      Because head-wise retention is a stable, model-intrinsic structure, Tangram calibrates it <b>once, offline</b> and turns every runtime burden of non-uniformity into a deterministic, pre-scheduled decision. <b>Each limitation above maps to exactly one technique:</b>
+    </p>
+
+    <div class="columns is-centered mb-6">
+      <div class="column is-four-fifths">
+        <div class="map-band">
+          <div class="map-row">
+            <span class="map-problem">Monolithic Page Structure<small>one KV length forced on every head&mdash;per-head compression impossible</small></span>
+            <span class="map-arrow">&rarr;</span>
+            <span class="map-tech">Ragged Paging<small>per-group page tables reclaim the freed capacity</small></span>
+          </div>
+          <div class="map-row">
+            <span class="map-problem">Page Management Overhead<small>runtime compress-and-reclaim, up to 25% of prefill</small></span>
+            <span class="map-arrow">&rarr;</span>
+            <span class="map-tech">Budget Reservation<small>exact pages reserved before execution</small></span>
+          </div>
+          <div class="map-row">
+            <span class="map-problem">Workload Imbalance<small>stragglers (1.7×) or 15–20% re-planning</small></span>
+            <span class="map-arrow">&rarr;</span>
+            <span class="map-tech">AOT Load Balancing<small>partition precomputed offline, zero runtime cost</small></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <div class="columns is-multiline">
       <div class="column is-4">
         <div class="methodology-box">
-          <h3 class="title is-4">1. Deterministic Budget Allocation</h3>
-          <p>Replaces runtime-decided compression with offline-profiled, per-head static budgets, eliminating the dynamic compress-and-reclaim bottleneck and enabling precise page planning.</p>
+          <h3 class="title is-4">1. Budget Reservation</h3>
+          <p>Fixes each head's budget to its offline-calibrated value, so the scheduler reserves exactly the post-compression pages at scheduling time&mdash;eliminating over-allocation and the entire compress-and-reclaim path.</p>
         </div>
       </div>
       <div class="column is-4">
         <div class="methodology-box">
-          <h3 class="title is-4">2. Head Group PagedAttention</h3>
-          <p>Clusters heads by budget similarity and assigns each group an independent page table. A <b>Vectorized Block Table</b> (SIMD + OpenMP) keeps fine-grained grouping CPU-cheap.</p>
+          <h3 class="title is-4">2. Ragged Paging</h3>
+          <p>Breaks the single-length constraint: per-group page tables let similar-budget heads be managed&mdash;and compressed&mdash;at <b>their own length</b>, so the capacity compression frees becomes physically reclaimable. A <b>Vectorized Block Table</b> (OpenMP + SIMD) keeps the added control-plane cost negligible.</p>
         </div>
       </div>
       <div class="column is-4">
         <div class="methodology-box">
           <h3 class="title is-4">3. AOT Load Balancing</h3>
-          <p>Precomputes a per-layer Workload Partition Table from static budget profiles, achieving balanced SM utilization with <b>zero runtime planning</b> overhead.</p>
+          <p>Precomputes a workload partition map from the reserved budget profiles, delivering balanced SM utilization with <b>zero runtime planning</b> overhead.</p>
         </div>
       </div>
     </div>
@@ -359,12 +414,12 @@
     <div class="has-text-centered mt-6">
       <figure>
         <img
-          src="./static/images/overview.png"
+          src="./static/images/overview.png?v=3"
           alt="Tangram System Overview"
           style="max-width: 95%; height: auto; border-radius: 8px;"
         >
         <figcaption class="has-text-grey mt-3" style="text-align: left;">
-          <b>Tangram system overview.</b> Three methodologies cooperate end-to-end across the serving stack: <b>(a) Deterministic Budget Allocation</b> profiles each head's KV retention offline and assigns a static, non-uniform budget per head; <b>(d) Head Group Page</b> clusters heads by budget similarity and gives each group its own page table — bounding allocation by the <i>local</i> maximum instead of the global one and reclaiming structural dead space; <b>(e) AOT Load Balancing</b> precomputes a Split-KV table from the static budgets so GPU SMs receive balanced work with zero per-step planning cost.
+          <b>Tangram system overview.</b> The three techniques compose end-to-end: <b>Budget Reservation</b> reserves each head's static budget before execution, <b>Ragged Paging</b> gives similar-budget head groups independent page tables to reclaim fragmented memory, and <b>AOT Load Balancing</b> precomputes a balanced Split-KV partition.
         </figcaption>
       </figure>
     </div>
@@ -375,27 +430,27 @@
 
 <section class="section">
   <div class="container is-max-desktop">
-    <h2 class="title is-3 has-text-centered">Deterministic Budget Allocation</h2>
+    <h2 class="title is-3 has-text-centered">Budget Reservation</h2>
     <div class="columns is-centered">
       <div class="column is-four-fifths">
         <p class="mb-5">
-          Tangram eliminates the dynamic evict-and-reclaim bottleneck by replacing runtime-decided compression with a <b>static, offline-profiled budget</b> for every head.
+          Tangram eliminates the dynamic compress-and-reclaim bottleneck by replacing runtime-decided compression with a <b>static, offline-calibrated budget</b> for every head, letting the scheduler reserve exactly the required pages before execution.
         </p>
 
         <div class="mb-5">
-          <h3 class="title is-4">Observation: Head-wise Budgets are Model-Intrinsic</h3>
+          <h3 class="title is-4">Observation: A Two-Level Structural Regularity</h3>
           <p>
-            Per-head retention rates are highly heterogeneous within a layer, yet each head's budget is <b>input-independent and stable</b> across samples and domains (verified across Qwen2.5-7B, Qwen3-4B, LLaMA3.1-8B).
-            This reframes "runtime uncertainty" as a statically resolvable model property.
+            Head-wise retention is intrinsic to the model, not driven by the input: the <b>ranking</b> of heads by retention demand is essentially input-invariant, and each head's <b>absolute ratio</b> varies only within a narrow, estimable band.
+            In the figure, heads are sorted by their calibrated budget; the per-task markers (Summary / Code / Retrieve) rise monotonically along that single ordering rather than reshuffling it, and the narrow boxes show low variance across 50 samples&mdash;reframing "runtime uncertainty" as a statically resolvable model property.
           </p>
           <div class="has-text-centered mt-4">
-            <img src="./static/images/budget_distribution.png" alt="Stability of Head-Wise Budgets" style="max-width: 70%; border-radius: 8px;">
-            <p class="is-size-7 has-text-grey mt-2">Per-head retained KV sizes are nearly invariant across 50 sample inputs.</p>
+            <img src="./static/images/head_retention_budget.png" alt="Per-head KV retention with reserved static budget" style="max-width: 80%; border-radius: 8px;">
+            <p class="is-size-7 has-text-grey mt-2">Per-head retention rates (KVzip, 50% target ratio) across Llama-3.1-8B, Gemma-3-12B, and GPT-OSS-20B. Dashed lines mark the static budget Tangram reserves with safety coefficient &alpha;=2.</p>
           </div>
         </div>
 
         <p class="mt-4">
-          Each head's static budget is profiled from just <b>50 pilot samples</b>, enabling precise planning and fused prefill+compression without runtime overhead.
+          Each head's static budget is calibrated from just <b>50 pilot samples</b> with a small safety margin (&alpha;=2), which absorbs per-input deviation. Because Tangram fixes only the budget and leaves each method's scoring function untouched, it is a <b>drop-in substrate</b> for any non-uniform compression method&mdash;adding no cost to the serving path.
         </p>
       </div>
     </div>
@@ -404,19 +459,22 @@
 
 <section class="section">
   <div class="container is-max-desktop">
-    <h2 class="title is-3 has-text-centered">Head Group PagedAttention</h2>
+    <h2 class="title is-3 has-text-centered">Ragged Paging</h2>
+    <p class="has-text-centered mb-5" style="max-width: 760px; margin-left:auto; margin-right:auto;">
+      The monolithic page forces one KV length on every head. Ragged Paging lifts that constraint&mdash;giving similar-budget head groups their own page tables&mdash;so a head can finally be compressed at <b>its own</b> length, and the freed memory is actually returned to the pool.
+    </p>
     <div class="columns is-centered">
       <div class="column is-four-fifths">
 
         <div class="has-text-centered">
           <figure>
             <img
-              src="./static/images/head-grouped%20paged%20atttention.png"
-              alt="Illustration of Head Group PagedAttention"
-              style="max-width: 100%; height: auto; border-radius: 8px;"
+              src="./static/images/ragged_paging_new.png?v=3"
+              alt="Illustration of Ragged Paging: Monolithic vs Ragged vs Clustered"
+              style="max-width: 85%; height: auto; border-radius: 8px;"
             >
             <figcaption class="has-text-grey mt-3" style="text-align: left;">
-              <b>Head Group PagedAttention.</b> Heads are sorted by static budget and clustered into groups of size G; each group manages its own independent page table, so allocation is dictated by the local — not global — maximum.
+              <b>Freeing KV pages under non-uniform compression.</b> A page is freed only when <i>all</i> heads sharing it are evicted. <b>(a) Monolithic</b> shares one page across all heads, so a single long head (H3) blocks every page&mdash;<b>0</b> pages freed. <b>(b) Ragged Paging</b> (H<sub>p</sub>=3) pages each head group independently, freeing groups without a long head. <b>(c) Clustered</b> first sorts heads by retention, packing short heads together to free far more pages (<b>4</b> vs 2).
             </figcaption>
           </figure>
         </div>
@@ -425,15 +483,15 @@
           <div class="column is-6">
             <h3 class="title is-4">Budget-Aware Head Clustering</h3>
             <p>
-              For each layer, heads are sorted by their offline budget B<sub>ℓ,h</sub> and partitioned into H/G groups.
-              Page capacity is bounded by the <b>local maximum within a group</b>, tightly aligning allocations to actual demand and reclaiming the dead space caused by short-retention heads.
+              Heads are sorted by their offline budget B<sub>ℓ,h</sub> and partitioned into groups of H<sub>p</sub> heads.
+              Each group's footprint is bounded by its <b>local maximum</b>, tightly tracking the retention its members actually need. Co-locating similar-budget heads&mdash;rather than adjacent ones&mdash;reclaims an additional <b>12–25%</b> of the full KV cache.
             </p>
           </div>
           <div class="column is-6">
             <h3 class="title is-4">Vectorized Block Table</h3>
             <p>
-              Fine-grained grouping naively raises CPU scheduling cost to O(N<sub>req</sub> × H/G).
-              Tangram batches block-table operations with <b>OpenMP</b> across groups and <b>SIMD (AVX-512)</b> within a group, keeping CPU overhead negligible even at small G.
+              Fine-grained grouping naively raises CPU scheduling cost to O(N<sub>req</sub> × H/H<sub>p</sub>).
+              Tangram aggregates block-table operations with <b>OpenMP</b> across groups and <b>SIMD (AVX-512)</b> within a group, keeping CPU overhead negligible even at small H<sub>p</sub>.
             </p>
           </div>
         </div>
@@ -441,12 +499,25 @@
         <div class="has-text-centered mt-6">
           <figure>
             <img
-              src="./static/images/Fragmentation and overhead.png"
-              alt="Fragmentation vs. Overhead Trade-off"
-              style="max-width: 70%; height: auto; border-radius: 8px;"
+              src="./static/images/fragmentation_overhead_new.png"
+              alt="Fragmentation vs. management-overhead trade-off"
+              style="max-width: 85%; height: auto; border-radius: 8px;"
             >
             <figcaption class="has-text-grey mt-3" style="text-align: left;">
-              Group size G trades off fragmentation against block-table overhead. The Vectorized Block Table shifts the overhead curve down, letting Tangram pick a small G for maximum memory reclamation without throughput loss.
+              <b>(a)</b> A unified page (vLLM) is sized by the longest head, so most capacity is fragmentation. <b>(b)</b> Ragged Paging (H<sub>p</sub>=4) allocates and reclaims per group. <b>(c)</b> H<sub>p</sub> trades fragmentation against block-table overhead; the Vectorized Block Table lowers that curve, making small H<sub>p</sub> practical.
+            </figcaption>
+          </figure>
+        </div>
+
+        <div class="has-text-centered mt-6">
+          <figure>
+            <img
+              src="./static/images/clustering_reclaim_new.png"
+              alt="Memory reclaimed with budget-aware clustering"
+              style="max-width: 75%; height: auto; border-radius: 8px;"
+            >
+            <figcaption class="has-text-grey mt-3" style="text-align: left;">
+              <b>Effectiveness of Budget-Aware Clustering.</b> Grouping heads of similar budget reclaims an additional <b>12–25%</b> of the full KV cache over grouping adjacent heads at the same H<sub>p</sub>, consistently across Qwen3-4B, Llama-3.1-8B, Gemma-3-12B, and GPT-OSS-20B.
             </figcaption>
           </figure>
         </div>
@@ -484,6 +555,19 @@
             The result: load-balanced GPU utilization without the latency penalty of online planning.
           </p>
         </div>
+
+        <div class="has-text-centered mt-5">
+          <figure>
+            <img
+              src="./static/images/attn_latency_new.png"
+              alt="Decode attention latency: FlashInfer vs FlashDecoding vs AOT-LB"
+              style="max-width: 75%; height: auto; border-radius: 8px;"
+            >
+            <figcaption class="has-text-grey mt-3" style="text-align: left;">
+              <b>Decode attention latency</b> across compression rates (batch size 4). AOT Load Balancing consistently achieves the lowest latency: FlashDecoding suffers stragglers from heuristic static partitioning, while FlashInfer pays to recompute per-layer partitions every step. Tangram pre-computes the partition offline, balancing SM utilization at zero runtime cost.
+            </figcaption>
+          </figure>
+        </div>
       </div>
     </div>
   </div>
@@ -491,24 +575,30 @@
 
 <section class="section">
   <div class="container is-max-desktop">
-    <h2 class="title is-3 has-text-centered">Evaluation Highlights</h2>
-    <div class="columns is-centered has-text-centered">
-      <div class="column">
-        <p class="is-size-2 highlight-value">2.6×</p>
-        <p class="is-size-5">Throughput Improvement</p>
+    <h2 class="title is-3 has-text-centered">Evaluation Setup</h2>
+    <div class="columns is-multiline mt-2">
+      <div class="column is-4">
+        <div class="methodology-box">
+          <h3 class="title is-5">Models</h3>
+          <p>Five dense &amp; Mixture-of-Experts models, all with &gt;100K context: <b>Qwen3-4B</b>, <b>Llama-3.1-8B</b>, <b>Gemma-3-12B</b>, <b>GPT-OSS-20B</b>, <b>Qwen3-30B-A3B</b>.</p>
+        </div>
       </div>
-      <div class="column">
-        <p class="is-size-2 highlight-value">4×</p>
-        <p class="is-size-5">Memory Savings</p>
+      <div class="column is-4">
+        <div class="methodology-box">
+          <h3 class="title is-5">Workload</h3>
+          <p><b>SCBench</b> &mdash; shared-context, multi-turn tasks split into <b>Short</b> (&lt;20K), <b>Mid</b> (20–100K), and <b>Long</b> (&gt;100K). Budgets calibrated offline from <b>50 pilot samples</b> (&alpha;=2).</p>
+        </div>
       </div>
-      <div class="column">
-        <p class="is-size-2 highlight-value">Minimal</p>
-        <p class="is-size-5">Accuracy Loss</p>
+      <div class="column is-4">
+        <div class="methodology-box">
+          <h3 class="title is-5">Methods &amp; Baselines</h3>
+          <p>Drop-in over <b>Ada-SnapKV</b>, <b>Expected Attention</b>, <b>FastKVzip</b>; compared against full-KV vLLM and the FlashDecoding / FlashInfer kernels.</p>
+        </div>
       </div>
     </div>
-    <div class="content has-text-justified mt-5">
-      <p>Evaluated on Qwen3-4B, Qwen2.5-7B-1M, and Qwen2.5-32B across <b>SCBench, LoCoMo, RealTalk, and LongMemEval</b>, Tangram preserves conversational accuracy while significantly outperforming state-of-the-art serving frameworks such as vLLM.</p>
-    </div>
+    <p class="has-text-centered has-text-grey is-size-7 mt-2">
+      Built on vLLM with custom FlashAttention CUDA kernels, on 4× NVIDIA A100 80GB. All throughput, latency, and fragmentation numbers are <b>measured on real hardware</b> &mdash; not simulated.
+    </p>
   </div>
 </section>
 
@@ -518,19 +608,19 @@
     <div class="columns is-centered">
       <div class="column is-four-fifths">
         <p class="mb-5">
-          Throughput gains are only meaningful if accuracy holds.
-          Compared against uniform compression (<b>SnapKV</b>) and non-uniform compression (<b>KVzip</b>, <b>FastKVzip</b>), Tangram's static-budget allocation tracks the full-KV baseline across Short, Mid, and Long context scales — even at aggressive retention rates.
+          Throughput gains are only meaningful if accuracy holds. A natural worry is that freezing budgets offline sacrifices the input-adaptivity that makes non-uniform compression accurate&mdash;our results show the opposite.
+          For each method (<b>Ada-SnapKV</b>, <b>Expected Attention</b>, <b>FastKVzip</b>), running it <i>under Tangram</i> (w/ Tangram) closely tracks its <i>original</i> implementation (w/o Tangram) across compression ratios&mdash;and in some cases exceeds it&mdash;while running free of the memory inefficiencies that made it impractical to serve.
         </p>
 
         <div class="has-text-centered">
           <figure>
             <img
-              src="./static/images/accuracy_results.png"
-              alt="Accuracy Results"
-              style="max-width: 65%; height: auto; border-radius: 8px;"
+              src="./static/images/accuracy_new.png"
+              alt="Accuracy: w/ Tangram vs w/o Tangram vs Full-KV"
+              style="max-width: 95%; height: auto; border-radius: 8px;"
             >
             <figcaption class="has-text-grey mt-3" style="text-align: left;">
-              <b>Accuracy vs. KV Retention Rate</b> on SCBench / LoCoMo / RealTalk / LongMemEval across Qwen3-4B, Qwen2.5-7B-1M, and Qwen2.5-32B (TP=2). Tangram maintains near-baseline accuracy where SnapKV and KVzip variants degrade.
+              <b>Accuracy vs. compression ratio</b> on SCBench, across all five models and three methods. Despite pinning each head group to a static offline budget, <i>w/ Tangram</i> matches the original <i>w/o Tangram</i> accuracy&mdash;a faithful substrate, not a different compressor.
             </figcaption>
           </figure>
         </div>
@@ -546,18 +636,18 @@
       <div class="column is-four-fifths">
         <p class="mb-5">
           Built on top of vLLM, Tangram is evaluated end-to-end against the vanilla baseline across multi-turn workloads.
-          By reclaiming structural dead space and eliminating control-plane overhead, it converts theoretical compression gains into <b>real serving throughput</b>.
+          By reclaiming fragmented memory and removing control-plane overhead, it converts a method's algorithmic compression into <b>real serving throughput</b>&mdash;up to <b>2.6×</b> over the full-KV baseline, with the gain growing as context length increases from Short to Long.
         </p>
 
         <div class="has-text-centered mb-6">
           <figure>
             <img
-              src="./static/images/Throughputs.png"
-              alt="Memory Usage and Throughput Comparison"
-              style="max-width: 75%; height: auto; border-radius: 8px;"
+              src="./static/images/throughput_breakdown_new.png"
+              alt="Cumulative throughput breakdown across models and context regimes"
+              style="max-width: 90%; height: auto; border-radius: 8px;"
             >
             <figcaption class="has-text-grey mt-3" style="text-align: left;">
-              Memory usage and end-to-end throughput on Qwen3-4B, Qwen2.5-7B-1M, and Qwen2.5-32B (TP=2).
+              <b>Cumulative throughput on SCBench (FastKVzip).</b> From the full-KV vLLM baseline, techniques stack&mdash;Budget Reservation &rarr; Ragged Paging &rarr; AOT Load Balancing&mdash;across Short / Mid / Long for all five models. Each adds throughput; the red ×N marks the peak gain.
             </figcaption>
           </figure>
         </div>
@@ -565,30 +655,47 @@
         <div class="methodology-box" style="height: auto;">
           <h3 class="title is-4">Key Evaluation Insights</h3>
           <ul class="mt-3">
-            <li><b>Breaking the Memory Cap:</b> vLLM's monolithic page structure caps the runnable batch size early; Head Group PagedAttention reclaims dead space to sustain <b>far more concurrent requests</b> at the same memory footprint.</li>
-            <li><b>Saturation Resilience:</b> While vLLM saturates as KV pressure rises, Tangram continues to scale, achieving up to <b>2.6× throughput</b> under identical KV cache budgets.</li>
-            <li><b>Effective Memory Savings:</b> When pushed to high compression, Tangram delivers up to <b>4×</b> effective memory savings — translating algorithmic compression into system-level gains.</li>
+            <li><b>Compression, fully realized:</b> the 2.6× gain combines the capacity freed by compression with the system efficiency Tangram adds. Tangram's contribution is not the compression ratio (inherited from the underlying method) but the <b>conversion of that ratio into realized throughput</b>.</li>
+            <li><b>Additive techniques:</b> Budget Reservation, Ragged Paging, and AOT Load Balancing each contribute independently&mdash;together bridging the gap between theoretical KV-cache reduction and served performance.</li>
+            <li><b>Latency under load:</b> under 75% eviction, Tangram sustains low TTFT as request rate grows, whereas vLLM's TTFT rises sharply.</li>
           </ul>
         </div>
 
         <div class="has-text-centered mt-6">
           <figure>
             <img
-              src="./static/images/Throughput Breakdown1.png"
-              alt="Latency Breakdown across Compression Rates (Top)"
-              style="max-width: 75%; height: auto; border-radius: 8px;"
-            >
-            <img
-              src="./static/images/Throughput Breakdown2.png"
-              alt="Throughput by Head Group Size (Bottom)"
-              style="max-width: 75%; height: auto; border-radius: 8px; margin-top: 1rem;"
+              src="./static/images/latency_breakdown_new.png"
+              alt="Prefill latency breakdown: static vs dynamic allocation"
+              style="max-width: 85%; height: auto; border-radius: 8px;"
             >
             <figcaption class="has-text-grey mt-3" style="text-align: left;">
-              <b>Decomposing where Tangram's gains come from.</b>
-              <br><br>
-              <b>(Top) Latency breakdown across various compression rates.</b> Dynamic allocation (Dyn. Comp.) incurs significant <i>page reclamation</i> overhead that scales with the eviction rate — adding up to <b>+24.9%</b> latency on Qwen3-4B and <b>+20.0%</b> on Qwen2.5-7B at 75% compression. In contrast, Tangram's deterministic budget allocation operates with <b>zero page reclaim overhead</b>, keeping end-to-end latency flat across all compression rates and isolating model execution as the only meaningful cost.
-              <br><br>
-              <b>(Bottom) Throughput across various compression rates by head group size (G).</b> The group size G governs the fragmentation–overhead trade-off: small G tightly packs per-head budgets to minimize fragmentation but inflates block-table management cost, while large G amortizes management overhead yet fails to effectively reclaim memory from short-retention heads. The sweet spot sits at moderate G across all three models (Qwen3-4B, Qwen2.5-7B-1M, Qwen2.5-32B with TP=2), confirming that Tangram's Vectorized Block Table makes <i>small-G regimes practical</i> without paying the CPU overhead penalty.
+              <b>Page reclamation, eliminated.</b> Dynamic allocation (<i>D</i>) pays page-reclaim overhead (orange) that grows with the eviction rate&mdash;up to <b>+24.9%</b> prefill latency (Qwen3-4B) and <b>+20.0%</b> (Llama-3.1-8B). Budget Reservation (<i>S</i>) reserves the exact footprint up front: <b>zero</b> reclaim cost.
+            </figcaption>
+          </figure>
+        </div>
+
+        <div class="has-text-centered mt-6">
+          <figure>
+            <img
+              src="./static/images/headgroup_throughput_new.png"
+              alt="Throughput versus heads per page"
+              style="max-width: 70%; height: auto; border-radius: 8px;"
+            >
+            <figcaption class="has-text-grey mt-3" style="text-align: left;">
+              <b>Throughput vs. heads per page (H<sub>p</sub>).</b> Small H<sub>p</sub> cuts fragmentation but adds page-table cost; large H<sub>p</sub> reclaims less. The sweet spot <b>H<sub>p</sub>=4–8</b> holds across all models and eviction rates&mdash;the Vectorized Block Table makes small H<sub>p</sub> practical.
+            </figcaption>
+          </figure>
+        </div>
+
+        <div class="has-text-centered mt-6">
+          <figure>
+            <img
+              src="./static/images/ttft_new.png"
+              alt="TTFT versus request rate"
+              style="max-width: 75%; height: auto; border-radius: 8px;"
+            >
+            <figcaption class="has-text-grey mt-3" style="text-align: left;">
+              <b>TTFT under load</b> (30K avg length, 75% evicted). The capacity Tangram frees keeps time-to-first-token flat as request rate climbs, while vLLM's TTFT spikes.
             </figcaption>
           </figure>
         </div>
@@ -602,7 +709,7 @@
   <div class="container is-max-desktop content">
     <h2 class="title">BibTeX</h2>
     <pre><code>@misc{kim2026tangramunlockingnonuniformkv,
-      title={Tangram: Unlocking Non-Uniform KV Cache for Efficient Multi-turn LLM Serving}, 
+      title={Tangram: Unlocking Non-Uniform KV Cache Compression for Efficient Multi-turn LLM Serving}, 
       author={Hyungmin Kim and Minsoo Kim and Hongseok Kim and Jungwook Choi},
       year={2026},
       eprint={2606.06302},
@@ -619,7 +726,7 @@
       <div class="column is-8 has-text-centered">
         <div class="content">
           <p>
-            &copy; 2026 <strong>Tangram: Unlocking Non-Uniform KV Cache for Efficient Multi-turn LLM Serving</strong>. All rights reserved.
+            &copy; 2026 <strong>Tangram: Unlocking Non-Uniform KV Cache Compression for Efficient Multi-turn LLM Serving</strong>. All rights reserved.
           </p>
           <p style="font-size: 0.85em; color: #666;">
             Website template borrowed from <a href="https://github.com/nerfies/nerfies.github.io" target="_blank">Nerfies</a>.

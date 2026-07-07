@@ -240,22 +240,30 @@
 <section class="section highlights">
   <div class="container is-max-desktop">
     <h2 class="title is-3 has-text-centered">Compression Gains, Fully Realized in Real Serving</h2>
-    <div class="columns is-centered has-text-centered">
-      <div class="column">
-        <p class="is-size-2 highlight-value">2.6×</p>
-        <p class="is-size-5">End-to-End Throughput<br>over full-KV vLLM</p>
-      </div>
-      <div class="column">
-        <p class="is-size-2 highlight-value">Drop-in</p>
-        <p class="is-size-5">Substrate for existing<br>non-uniform methods</p>
-      </div>
-      <div class="column">
-        <p class="is-size-2 highlight-value">Near-Baseline</p>
-        <p class="is-size-5">Accuracy across<br>5 dense &amp; MoE models</p>
-      </div>
+    <div class="has-text-centered">
+      <img
+        src="./static/images/speedup.png"
+        alt="End-to-end request throughput of Tangram vs. vLLM across KV cache ratios on Qwen3-4B, Llama-3.1-8B, Gemma-3-12B, and GPT-OSS-20B"
+        style="max-width: 100%; height: auto; border-radius: 8px;"
+      >
     </div>
-    <div class="content has-text-justified mt-5">
-      <p>Non-uniform KV compression is <i>algorithmically</i> the right tool for multi-turn serving, but its theoretical memory savings evaporate inside today's serving stacks. <b>Tangram closes this gap</b>: built on vLLM, it lets existing methods — <b>Ada-SnapKV, Expected Attention, and FastKVzip</b> — deliver their full algorithmic gains as real served throughput. Evaluated on five dense and Mixture-of-Experts models (Qwen3-4B, Llama-3.1-8B, Gemma-3-12B, GPT-OSS-20B, Qwen3-30B-A3B) on <b>SCBench</b>, it matches each method's original accuracy while improving throughput by up to <b>2.6×</b> over the full-KV baseline.</p>
+    <div class="columns is-multiline mt-5">
+      <div class="column is-half">
+        <p><b>KV cache compression on vLLM with Ragged Paging</b><br>
+        Non-uniform and uniform KV cache compression, natively integrated into vLLM.</p>
+      </div>
+      <div class="column is-half">
+        <p><b>Seamless vLLM integration</b><br>
+        Fully compatible with paged attention, continuous batching, chunked prefill, and CUDA graph mode.</p>
+      </div>
+      <div class="column is-half">
+        <p><b>Real memory reclamation</b><br>
+        Compressed KV cache is actually freed, turning memory savings into higher serving throughput.</p>
+      </div>
+      <div class="column is-half">
+        <p><b>Zero runtime scheduling overhead</b><br>
+        Budget reservation and ahead-of-time (AOT) load balancing keep compression off the critical path.</p>
+      </div>
     </div>
   </div>
 </section>

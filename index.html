@@ -107,6 +107,16 @@
       background: linear-gradient(135deg, #eef4ff 0%, #ddeaff 100%);
       border-bottom: 2px solid #bdd3f5;
     }
+    .highlight-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.5rem;
+    }
+    .highlight-item .highlight-check {
+      color: #3273dc;
+      margin-top: 0.15rem;
+      flex-shrink: 0;
+    }
 
     /* ── Methodology boxes ── */
     .methodology-box {
@@ -249,20 +259,32 @@
     </div>
     <div class="columns is-multiline mt-5">
       <div class="column is-half">
-        <p><b>KV cache compression on vLLM with Ragged Paging</b><br>
-        Non-uniform and uniform KV cache compression, natively integrated into vLLM.</p>
+        <div class="highlight-item">
+          <span class="icon highlight-check"><i class="fas fa-check-circle"></i></span>
+          <p><b>KV cache compression on vLLM with Ragged Paging</b><br>
+          Non-uniform and uniform KV cache compression, natively integrated into vLLM.</p>
+        </div>
       </div>
       <div class="column is-half">
-        <p><b>Seamless vLLM integration</b><br>
-        Fully compatible with paged attention, continuous batching, chunked prefill, and CUDA graph mode.</p>
+        <div class="highlight-item">
+          <span class="icon highlight-check"><i class="fas fa-check-circle"></i></span>
+          <p><b>Seamless vLLM integration</b><br>
+          Fully compatible with paged attention, continuous batching, chunked prefill, and CUDA graph mode.</p>
+        </div>
       </div>
       <div class="column is-half">
-        <p><b>Real memory reclamation</b><br>
-        Compressed KV cache is actually freed, turning memory savings into higher serving throughput.</p>
+        <div class="highlight-item">
+          <span class="icon highlight-check"><i class="fas fa-check-circle"></i></span>
+          <p><b>Real memory reclamation</b><br>
+          Compressed KV cache is actually freed, turning memory savings into higher serving throughput.</p>
+        </div>
       </div>
       <div class="column is-half">
-        <p><b>Zero runtime scheduling overhead</b><br>
-        Budget reservation and ahead-of-time (AOT) load balancing keep compression off the critical path.</p>
+        <div class="highlight-item">
+          <span class="icon highlight-check"><i class="fas fa-check-circle"></i></span>
+          <p><b>Zero runtime scheduling overhead</b><br>
+          Budget reservation and ahead-of-time (AOT) load balancing keep compression off the critical path.</p>
+        </div>
       </div>
     </div>
   </div>
